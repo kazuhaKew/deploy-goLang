@@ -2,6 +2,5 @@
 
 ```bash
 cd backend
-go mod download
-go mod vendor
+go mod download && go mod vendor
 ```
