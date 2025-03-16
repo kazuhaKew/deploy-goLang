@@ -1,33 +1,28 @@
-FROM golang:1.23-alpine AS builder
+# Build Stage
+FROM golang:1.23-alpine AS build
 
 WORKDIR /app
 
-# Copy go mod and sum files
+# Copy go.mod and go.sum
 COPY go.mod ./
 RUN go mod download
 
-# Copy the source code
+# Copy source code
 COPY . .
 
 # Build the application
-RUN go build -o main .
+RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
-# Use a smaller image for the final container
+# Runtime Stage
 FROM alpine:latest
 
 WORKDIR /app
 
-# Add CA certificates for HTTPS requests
-RUN apk --no-cache add ca-certificates
+# Copy the binary from build stage
+COPY --from=build /app/main .
 
-# Create logs directory with proper permissions
-RUN mkdir -p /app/logs && chmod 755 /app/logs
+# Expose the application port
+EXPOSE 8080
 
-# Copy the binary from the builder stage
-COPY --from=builder /app/main .
-
-# Expose the port the app runs on
-EXPOSE 3000
-
-# Command to run the application
+# Run the binary
 CMD ["./main"]
