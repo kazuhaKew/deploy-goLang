@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  gofiber:
+    build:
+      context: ./backend-goFiber
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    container_name: gofiber-service
+
+#  fileServer:
+#    build:
+#      context: ./backend-fileServer
+#    ports:
+#      - "3001:3001"
+#    restart: unless-stopped
+#    container_name: fileServer-service
+
+  gorilla:
+    build:
+      context: ./backend-gorilla
+    ports:
+      - "3001:3001"
+    restart: unless-stopped
+    container_name: gorilla-service
+
+networks:
+  default:
+    name: backend-network
