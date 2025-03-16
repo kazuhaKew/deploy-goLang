@@ -3,23 +3,11 @@ FROM golang:1.23-alpine AS build
 
 WORKDIR /app
 
-# Copy go.mod and go.sum
-COPY go.mod ./
-
-# Disable IPv6 for go mod download
-RUN go env -w GOPROXY=direct
-RUN go env -w GONOSUMDB=*
-# Force IPv4 only
-RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf
-
-# Try downloading dependencies
-RUN go mod download
-
-# Copy source code
+# Copy the whole directory including vendor
 COPY . .
 
-# Build the application
-RUN CGO_ENABLED=0 GOOS=linux go build -o main .
+# Build the application using vendor directory
+RUN CGO_ENABLED=0 GOOS=linux go build -mod=vendor -o main .
 
 # Runtime Stage
 FROM alpine:latest
