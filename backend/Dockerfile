@@ -5,6 +5,14 @@ WORKDIR /app
 
 # Copy go.mod and go.sum
 COPY go.mod ./
+
+# Disable IPv6 for go mod download
+RUN go env -w GOPROXY=direct
+RUN go env -w GONOSUMDB=*
+# Force IPv4 only
+RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf
+
+# Try downloading dependencies
 RUN go mod download
 
 # Copy source code
