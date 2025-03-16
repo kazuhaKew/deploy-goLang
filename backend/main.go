@@ -1,9 +1,9 @@
 package main
 
 import (
+	"backend/routes"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"hello-world/routes"
 
 	"github.com/gofiber/fiber/v2"
 )
