@@ -14,7 +14,7 @@ __________________________________________________________
 ## Option 2: Building Individual Images
 ### Build goFiber service
 ```bash
-cd /backend-goFiber
+cd /backend
 docker build -t backend-gofiber:latest .
 ```
 
