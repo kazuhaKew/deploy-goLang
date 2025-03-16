@@ -5,6 +5,11 @@
 docker-compose up --build -d
 ```
 
+```bash
+sudo docker-compose build --no-cache && sudo docker-compose up -d
+```
+
+
 # Stop all services
 ```bash
 docker-compose down
